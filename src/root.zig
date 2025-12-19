@@ -1,0 +1,37 @@
+//! By convention, root.zig is the root source file when making a library.
+const std = @import("std");
+const raylib = @import("raylib");
+
+pub fn drawDashedLine(start: raylib.Vector2, end: raylib.Vector2, thick: f32, color: raylib.Color, dash_length: f32, gap_length: f32) void {
+    const dx = end.x - start.x;
+    const dy = end.y - start.y;
+    const length = std.math.sqrt(dx * dx + dy * dy);
+    if (length == 0) return;
+    const dir_x = dx / length;
+    const dir_y = dy / length;
+    var current_dist: f32 = 0;
+    while (current_dist < length) {
+        var draw_len = dash_length;
+        if (current_dist + draw_len > length) {
+            draw_len = length - current_dist;
+        }
+        const p1 = raylib.Vector2{ .x = start.x + dir_x * current_dist, .y = start.y + dir_y * current_dist };
+        const p2 = raylib.Vector2{ .x = start.x + dir_x * (current_dist + draw_len), .y = start.y + dir_y * (current_dist + draw_len) };
+        raylib.drawLineEx(p1, p2, thick, color);
+        current_dist += dash_length + gap_length;
+    }
+}
+
+pub fn drawDashedGrid(screenWidth: i32, screenHeight: i32, spacing: f32, thick: f32, color: raylib.Color) void {
+    const width_f = @as(f32, @floatFromInt(screenWidth));
+    const height_f = @as(f32, @floatFromInt(screenHeight));
+
+    var x: f32 = 0;
+    while (x <= width_f) : (x += spacing) {
+        drawDashedLine(raylib.Vector2{ .x = x, .y = 0 }, raylib.Vector2{ .x = x, .y = height_f }, thick, color, 20.0, 0);
+    }
+    var y: f32 = 0;
+    while (y <= height_f) : (y += spacing) {
+        drawDashedLine(raylib.Vector2{ .x = 0, .y = y }, raylib.Vector2{ .x = width_f, .y = y }, thick, color, 20.0, 0.0);
+    }
+}
