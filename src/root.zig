@@ -2,6 +2,9 @@
 const std = @import("std");
 const raylib = @import("raylib");
 
+pub const TileType = enum { empty, runway, terminal, gate, taxiway };
+pub const Tile = struct { type: TileType };
+
 pub fn drawDashedLine(start: raylib.Vector2, end: raylib.Vector2, thick: f32, color: raylib.Color, dash_length: f32, gap_length: f32) void {
     const dx = end.x - start.x;
     const dy = end.y - start.y;
@@ -34,4 +37,33 @@ pub fn drawDashedGrid(screenWidth: i32, screenHeight: i32, spacing: f32, thick: 
     while (y <= height_f) : (y += spacing) {
         drawDashedLine(raylib.Vector2{ .x = 0, .y = y }, raylib.Vector2{ .x = width_f, .y = y }, thick, color, 20.0, 0.0);
     }
+}
+
+pub fn initTiles(allocator: std.mem.Allocator, w: i32, h: i32, size: i32) ![]Tile {
+    const cols = @divTrunc(w, size);
+    const rows = @divTrunc(h, size);
+    const count = @as(usize, @intCast(cols * rows));
+
+    const tiles = try allocator.alloc(Tile, count);
+    @memset(tiles, Tile{ .type = .empty });
+
+    return tiles;
+}
+
+pub fn posToTile(w: i32, size: i32, mousePos: raylib.Vector2) usize {
+    const x = @as(i32, @intFromFloat(mousePos.x));
+    const y = @as(i32, @intFromFloat(mousePos.y));
+
+    const col = @divTrunc(x, size);
+    const row = @divTrunc(y, size);
+    const cols_count = @divTrunc(w, size);
+
+    const index = row * cols_count + col;
+
+    return @intCast(index);
+}
+
+pub fn setAsTaxiway(tiles: []Tile, index: usize) void {
+    if (index >= tiles.len) return;
+    tiles[index].type = .taxiway;
 }

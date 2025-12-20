@@ -44,10 +44,26 @@
 
 
  ------ Todo -------
- 
- - [x] link raylib to my zig project
- - [x] set the background as a light blue (blueprint)
- - [x] draw a grid structure with dashed white lines
- - [ ] choose a tile size and make a map of tiles (a 2d array of tiles, coordinates and type).
- - [ ] define a road look and feel
- - [ ] switch a tile by clicking from empty to a road
+
+### Core System
+ - [x] Link raylib to my zig project
+ - [x] Set the background as a light blue (blueprint)
+ - [x] Draw a grid structure with dashed white lines
+ - [x] **Map System**: Implement a 2D array of Tiles (Type) *you can infer coordinates instead of saving them as memory*
+ - [ ] **Game State**: Define a main struct to hold the Map, List of Planes, and Game Variables (Time, Score).
+
+### Building & Interaction
+ - [x] **Input Handling**: Detect mouse clicks on grid cells.
+ - [x] **Building Mechanics**: Toggle tiles between 'Empty' and 'Taxiway' on click.
+ - [ ] **Road Logic**: Implement auto-tiling or connected textures for Taxiways so they look like roads.
+
+### Simulation & Logic
+ - [ ] **Plane Entity**: Define the `Plane` struct with State (Approach, Landing, Taxi, etc.) and Position.
+ - [ ] **Pathfinding**: Implement A* or BFS to find paths from Runway -> Gate -> Runway.
+ - [ ] **Runway Logic**: Implement locking mechanism (only one plane can use it at a time).
+ - [ ] **Gate Logic**: Implement docking and service timer.
+
+### Visuals
+ - [ ] Draw simple shapes for Terminals and Gates.
+ - [ ] Draw Planes with direction indicators.
+ - [ ] Add visual feedback for "Locked" runways or "Service" progress.
