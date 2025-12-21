@@ -20,7 +20,7 @@ pub fn main() !void {
     const tiles = try mgc.initTiles(allocator, SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE);
 
     defer allocator.free(tiles);
-
+    rl.setConfigFlags(rl.ConfigFlags{ .msaa_4x_hint = true });
     rl.initWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Mini Ground Control");
     const noiseImage = rl.genImageWhiteNoise(SCREEN_WIDTH, SCREEN_HEIGHT, 0.5);
 
@@ -33,17 +33,17 @@ pub fn main() !void {
         mgc.drawDashedGrid(SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE, 1.0, lavanderBlueGrid);
         if (rl.isMouseButtonPressed(.left)) {
             const mousePos = rl.getMousePosition();
+            mgc.draw.drawPlane(mousePos.x, mousePos.y, 30, 150, lavanderBlue);
             const clickedTile = mgc.posToTile(SCREEN_WIDTH, TILE_SIZE, mousePos);
             mgc.setAsTaxiway(tiles, clickedTile);
             std.debug.print("clicked at: x->{}, y->{}\n", .{ mousePos.x, mousePos.y });
             std.debug.print("pos {} {}\n", .{ clickedTile, tiles[clickedTile] });
         }
+        mgc.draw.drawGate(100, 100, 10, .hexagon, rl.Color.white);
+        mgc.draw.drawPlane(400, 300, 0, 10, lavanderBlue);
 
         rl.drawTexture(paperTexture, 0, 0, rl.fade(royalBlue, 0.08));
-        // Draw this last, after all planes and taxiways
-        rl.drawCircleGradient(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, @as(f32, @floatFromInt(SCREEN_HEIGHT)) * 1.1, rl.fade(rl.Color.blank, 0), // Center
-            rl.fade(rl.Color.blank, 0.6) // Outer edge (alpha 0.4 for subtlety)
-        );
+        rl.drawCircleGradient(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, @as(f32, @floatFromInt(SCREEN_HEIGHT)) * 1.1, rl.fade(rl.Color.blank, 0), rl.fade(rl.Color.blank, 0.6));
         rl.endDrawing();
     }
 }

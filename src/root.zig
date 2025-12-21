@@ -67,3 +67,4 @@ pub fn setAsTaxiway(tiles: []Tile, index: usize) void {
     if (index >= tiles.len) return;
     tiles[index].type = .taxiway;
 }
+pub const draw = @import("draw.zig");
