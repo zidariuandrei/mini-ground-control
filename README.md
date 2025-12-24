@@ -55,7 +55,7 @@
 ### Building & Interaction
  - [x] **Input Handling**: Detect mouse clicks on grid cells.
  - [x] **Building Mechanics**: Toggle tiles between 'Empty' and 'Taxiway' on click.
- - [ ] **Road Logic**: Implement auto-tiling or connected textures for Taxiways so they look like roads.
+ - [x] **Road Logic**: Implement auto-tiling or connected textures for Taxiways so they look like roads.
 
 ### Simulation & Logic
  - [ ] **Plane Entity**: Define the `Plane` struct with State (Approach, Landing, Taxi, etc.) and Position.
@@ -64,6 +64,6 @@
  - [ ] **Gate Logic**: Implement docking and service timer.
 
 ### Visuals
- - [ ] Draw simple shapes for Terminals and Gates.
- - [ ] Draw Planes with direction indicators.
+ - [x] Draw simple shapes for Terminals and Gates.
+ - [x] Draw Planes with direction indicators.
  - [ ] Add visual feedback for "Locked" runways or "Service" progress.
